@@ -23,12 +23,10 @@ export default function App() {
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        // Firebase is initialized and user is authenticated (or null if not authenticated)
         loadShoppingList();
       }
     });
 
-    // Clean up the listener when the component unmounts
     return () => unsubscribe();
   }, []);
 
@@ -39,10 +37,8 @@ export default function App() {
           name: productName,
           amount: amount,
         });
-        // Clear input fields
         setProductName("");
         setAmount("");
-        // Reload shopping list
         loadShoppingList();
       } catch (error) {
         console.error("Error adding item: ", error);
@@ -66,7 +62,6 @@ export default function App() {
   const removeItem = async (id) => {
     try {
       await db.collection("items").doc(id).delete();
-      // Reload shopping list after deleting an item
       loadShoppingList();
     } catch (error) {
       console.error("Error removing item: ", error);
